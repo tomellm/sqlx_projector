@@ -1,0 +1,8 @@
+[package]
+name = "sqlx_projector"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+futures = "0.3.31"
+sqlx = "0.8.2"
