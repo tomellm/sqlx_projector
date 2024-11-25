@@ -5,4 +5,4 @@ edition = "2021"
 
 [dependencies]
 futures = "0.3.31"
-sqlx = "0.8.2"
+sqlx = { version = "0.8.2", features = ["postgres"] }
