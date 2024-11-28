@@ -64,7 +64,7 @@ mod test {
     use static_assertions::assert_impl_one;
 
     use crate::{
-        impl_to_database, projectors::{FromEntity, ToDatabase, ToEntity}, DatabaseUtilities
+        impl_to_database, projectors::{FromEntity, ToEntity}, DatabaseUtilities
     };
 
     #[test]

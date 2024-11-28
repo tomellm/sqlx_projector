@@ -6,10 +6,10 @@ pub trait ToDatabase {
 #[macro_export]
 macro_rules! impl_to_database {
     ($type:ty, $dbtype:ty) => {
-        impl ToDatabase for $type {
+        impl $crate::projectors::ToDatabase for $type {
             type DbEntity = $dbtype;
             fn to_db(self) -> Self::DbEntity {
-                Self::DbEntity::from_entity(self)
+                <Self::DbEntity as $crate::projectors::FromEntity<Self>>::from_entity(self)
             }
         }
     };
