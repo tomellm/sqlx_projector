@@ -1,45 +1,30 @@
-pub trait ToDatabase<DbEntity> {
-    fn to_db(self) -> DbEntity;
+pub trait ToDatabase {
+    type DbEntity: FromEntity<Self> + ToEntity<Self>;
+    fn to_db(self) -> Self::DbEntity;
 }
 
-pub trait ToEntity<Entity> {
+#[macro_export]
+macro_rules! impl_to_database {
+    ($type:ty, $dbtype:ty) => {
+        impl ToDatabase for $type {
+            type DbEntity = $dbtype;
+            fn to_db(self) -> Self::DbEntity {
+                Self::DbEntity::from_entity(self)
+            }
+        }
+    };
+}
+
+pub trait ToEntity<Entity>
+where
+    Entity: ?Sized,
+{
     fn to_entity(self) -> Entity;
 }
 
-pub trait FromDatabase<DbEntity> {
-    fn from_db(entity: DbEntity) -> Self;
-}
-
-pub trait FromEntity<Entity> {
+pub trait FromEntity<Entity>
+where
+    Entity: ?Sized,
+{
     fn from_entity(entity: Entity) -> Self;
 }
-
-impl<Entity, DbEntity> FromDatabase<DbEntity> for Entity
-where
-    DbEntity: ToEntity<Entity>,
-{
-    fn from_db(entity: DbEntity) -> Self {
-        entity.to_entity()
-    }
-}
-
-impl<Entity, DbEntity> ToDatabase<DbEntity> for Entity
-where
-    DbEntity: FromEntity<Entity>,
-{
-    fn to_db(self) -> DbEntity {
-        DbEntity::from_entity(self)
-    }
-}
-
-//impl<T> FromEntity<T> for T {
-//    fn from_entity(entity: T) -> Self {
-//        entity
-//    }
-//}
-//
-//impl<T> ToEntity<T> for T {
-//    fn to_entity(self) -> T {
-//        self
-//    }
-//}

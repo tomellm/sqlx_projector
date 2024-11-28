@@ -6,3 +6,4 @@ edition = "2021"
 [dependencies]
 futures = "0.3.31"
 sqlx = { version = "0.8.2", features = ["postgres"] }
+static_assertions = "1.1.0"
